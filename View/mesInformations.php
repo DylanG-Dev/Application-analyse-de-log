@@ -1,19 +1,16 @@
 <h3><?php echo htmlspecialchars($_SESSION['loueur_nom']) ?></h3>
 <div id="btnConnexion">
-    <a href="connexion.php">Déconnexion</a>
+    <a href="connexion.php?action=connexion">Déconnexion</a>
+    <a href="loueurConnecte.php?action=connecte">Retour en arrière</a>
+    <a href="mesStats.php?action=mesStats">Mes statistiques</a>
 </div>
-<?php
- foreach($loueur as $infoParJour) {
-    echo '<h3>'.$loueur->getId().'</h3>';
+<?php/*
+for($loueur connected) {
     echo '<h3>'.$loueur->getNom().'</h3>';
-    echo '<p>'.$loueur->getTimeouts().'</p>';
-    echo '<p>'.$loueur->getRetourKO().'</p>';
-    echo '<small>Publié le '.$loueur->getDate().'</small>';
-}
-echo <p>nom</p>
-echo <p>pays origine</p>
-echo <p>email</p>
-echo <p>tel</p>
+    echo '<p>'.$loueur->getPays().'</p>';
+    echo '<p>'.$loueur->getEmail().'</p>';
+    echo '<p>'.$loueur->getNumTel().'</p>';
+}*/
 ?>
 
 

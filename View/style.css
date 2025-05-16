@@ -1,6 +1,8 @@
-h2 {
+h1 {
+    padding-top: 15px;
+    margin-left: -12px;
+    margin-right: -12px;
     text-align: center;
-    background-color: lightgreen;
     display: flex;
     justify-content: center;
 }
@@ -12,20 +14,18 @@ h2 {
 }
 
 footer {
-    display: flex;
-    justify-content: center
-    margin-top: 20px;
+    font-size: 20px;
     color: black;
-    background-color: lightgreen;
+    background-color: white;
     padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+    width: 100%;
+    margin-top: -16px;
+    margin-bottom: 4px;
+    border-radius: 0;
 }
 
 a {
     color: black;
-    background-color: lightgreen;
     text-decoration: none;
     border-radius: 5px;
     display: inline-block;
@@ -35,4 +35,39 @@ a {
 form {
     display: flex;
     justify-content: center;
+}
+
+.col-xl-2 {
+    border: 1px solid red;
+    overflow-y: auto;
+}
+
+#center {
+    display: flex;
+    justify-content: center;
+}
+
+span {
+    font-size: 16px;
+}
+
+#deco {
+    margin-top: 5px;
+    margin-left: 9px;
+    text-size: 10px;
+}
+
+#nomPiedDePage {
+    display: flex;
+    justify-content:center;
+}
+
+#topPage {
+    margin-top: -10px;
+}
+
+img {
+    width: 100%;
+    padding: 300px;
+    object-fit: cover;
 }

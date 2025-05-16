@@ -2,8 +2,8 @@
     <h2 class="alert alert-warning">Connexion</h2>
 </header>
 <br>
-<?php if($message_erreur != '')
-    echo "<div class=\"alert alert-danger errorMessage\">$message_erreur</div>";
+<?php /*if($message_erreur != '')
+    echo "<div class=\"alert alert-danger errorMessage\">$message_erreur</div>";*/
 ?>
 
 <form method="post" action="index.php">
