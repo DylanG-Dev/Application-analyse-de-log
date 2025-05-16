@@ -31,57 +31,44 @@ class loueurDAO extends ConnexionMySQL {
         return $data;
     }
 
-    public function getByLoueur($nom) {
-        $sql = 'SELECT * FROM loueur WHERE nom = ?';
-        $result = $this->bdd->prepare($sql);
-        $result->execute([$nom]);
-        $data = $result->fetch();
-        return $data;
-    }
-
     public function getLastDate($nom) {
         $sql = 'SELECT nom, date ,timeouts ,appelsKO FROM loueur WHERE nom = ? AND date = (SELECT MAX(date) FROM loueur WHERE nom = ?);';
         $stmt = $this->bdd->prepare($sql);
         $stmt->execute([$nom, $nom]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
+  
     public function create($loueur) {
-        $sql = 'INSERT INTO loueur VALUES (?,?,?,?,?,?,?,?,?)';
+        $sql = 'INSERT INTO loueur (id,nom,motdepasse,pays,email,telephone) VALUES (?,?,?,?,?,?)';
+
         $result = $this->bdd->prepare($sql);
         $result->execute([
             $loueur->getId(),
             $loueur->getNom(),
-            $loueur->getAppelsKO(),
-            $loueur->getTimeouts(),
             $loueur->getMotdepasse(),
             $loueur->getPays(),
             $loueur->getEmail(),
             $loueur->getNumTel(),
-            $loueur->getDate()->format('Y-m-d H:i:s'),
         ]);
     }
 
     public function update($loueur) {
-        $sql = 'UPDATE loueur SET nom = ?, appelsKO = ?, timeouts = ?, motdepasse = ?, pays = ?, email = ?, numTel = ?, date = ? WHERE id = ?';
+        $sql = 'UPDATE loueur SET nom = ?, motdepasse = ?, pays = ?, email = ?, telephone = ? WHERE id = ?';
         $result = $this->bdd->prepare($sql);
         $result->execute([
             $loueur->getNom(),
-            $loueur->getAppelsKO(),
-            $loueur->getTimeouts(),
             $loueur->getMotdepasse(),
             $loueur->getPays(),
             $loueur->getEmail(),
             $loueur->getNumTel(),
-            $loueur->getDate()->format('Y-m-d H:i:s'),
             $loueur->getId(),
         ]);
     }
 
-    public function delete($nom) {
-        $sql = 'DELETE FROM loueur WHERE nom = ?';
+    public function delete($id) {
+        $sql = 'DELETE FROM loueur WHERE id = ?';
         $result = $this->bdd->prepare($sql);
-        $result->execute([$nom]);
+        $result->execute([$id]);
     }
 
     public function connecteUtilisateur2($utilisateur) {
@@ -171,39 +158,6 @@ class loueurDAO extends ConnexionMySQL {
         }
 
         return null;
-    }
-
-    public function updateLoueur(loueur $loueur): bool {
-        $sql = "UPDATE loueur SET 
-                nom = :nom, 
-                appelsKO = :appelsKO, 
-                timeouts = :timeouts,
-                motdepasse = :motdepasse,
-                pays = :pays,
-                email = :email,
-                numTel = :numTel,
-                date = :date
-                WHERE id = :id";
-        $stmt = $this->bdd->prepare($sql);
-
-        return $stmt->execute([
-            ':id' => $loueur->getId(),
-            ':nom' => $loueur->getNom(),
-            ':appelsKO' => $loueur->getAppelsKO(),
-            ':timeouts' => $loueur->getTimeouts(),
-            ':motdepasse' => $loueur->getMotdepasse(),
-            ':pays' => $loueur->getPays(),
-            ':email' => $loueur->getEmail(),
-            ':numTel' => $loueur->getNumTel(),
-            ':date' => $loueur->getDate()->format('Y-m-d H:i:s')
-        ]);
-    }
-
-    public function deleteLoueur(int $id): bool {
-        $sql = "DELETE FROM loueur WHERE id = :id";
-        $stmt = $this->bdd->prepare($sql);
-
-        return $stmt->execute([':id' => $id]);
     }
 
     public function selectLoueur(): array {
