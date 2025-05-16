@@ -2,7 +2,7 @@
 <h3><?php echo htmlspecialchars($_SESSION['loueur_nom']) ?></h3>
 <div id="btnConnexion">
     <a href="connexion.php?action=connexion">Déconnexion</a>
-    <a href="mesStats?action=connecte">Retour en arrière</a>
+    <a href="mesStats?action=mesStats">Retour en arrière</a>
     <a href="historiqueLoueur.php?action=historiqueLoueur">Historique</a>
 </div>
 <?php/*
