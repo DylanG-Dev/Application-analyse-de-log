@@ -1,40 +1,98 @@
 <?php
 session_start();
-use BO\loueur;
 
+use BO\loueur;
+use DAO\loueurDAO;
+
+require_once("model/DAO/connexionMySQL.php");
+require_once("model/DAO/loueurDAO.php");
+
+$dao = new loueurDAO();
 $message_erreur = '';
 $message_valider = '';
-$loueurDAO = null;
-$loueur = null;
-$vue = 'connexion';
 $logs = [];
 $log = null;
+$title = 'Connexion';
+$vue = 'connexion';
+$stats = null;
+$loueur = null;
 
-require_once("model/DAO/loueurDAO.php");
+// Connexion
 if(isset($_POST['btnConnexion'])) {
-    //Connexion
-    $dao = new LoueurDAO();
-    if (isset($_POST['nom']) && isset($_POST['motdepasse'])) {
-        $utilisateur = $dao->connecteUtilisateur($_POST['id'],$_POST['nom'],$_POST['motdepasse']);
+    if (isset($_POST['id']) && isset($_POST['nom']) && isset($_POST['motdepasse'])) {
+        $utilisateur = $dao->connecteUtilisateur($_POST['id'], $_POST['nom'], $_POST['motdepasse']);
         if($utilisateur) {
+            $_SESSION['id'] = $_POST['id'];
             $_SESSION['loueur_nom'] = $_POST['nom'];
             $_SESSION['isAdmin'] = $utilisateur['isAdmin'];
-            //CONNEXION ADMIN
+            // Connexion Admin
             if($utilisateur['isAdmin']) {
                 $vue = 'administrateurConnecte';
                 $title = 'Administrateur';
             }
-            //CONNEXION UTILISATEUR
-            else{
-                $vue = 'utilisateurConnecte'; //à verifier
+            // Connexion Utilisateur
+            else {
+                $vue = 'utilisateurConnecte'; 
+                $title = 'Loueur Connecté';
             }
-        }else{
-            $message_erreur = 'Identifiants incorrect';
+        } else {
+            $message_erreur = 'Identifiants incorrects';
         }
-
     }
 }
-//Les statistiques ADMIN
+
+// Les pages utilisateur
+if(isset($_GET['action']) && $_GET['action'] == 'utilisateurConnecte') {
+    $vue = 'utilisateurConnecte';
+    $title = 'Loueur Connecté';
+}
+
+if(isset($_GET['action']) && $_GET['action'] == 'administrateurConnecte') {
+    $vue = 'administrateurConnecte';
+    $title = 'Administrateur Connecté';
+}
+
+if(isset($_GET['action']) && $_GET['action'] == 'mesStats') {
+    $vue = 'mesStats';
+    $title = 'Mes Statistiques';
+    if(isset($_SESSION['id'])) {
+        $stats = $dao->statsLoueur($_SESSION['id']);
+    } else {
+        $message_erreur = 'Vous devez être connecté pour accéder à cette page';
+    }
+}
+
+if(isset($_GET['action']) && $_GET['action'] == 'mesInfos') {
+    $vue = 'mesInfos';
+    $title = 'Mes Informations';
+    if(isset($_SESSION['id'])) {
+        $loueur = $dao->findById($_SESSION['id']);
+    } else {
+        $message_erreur = 'Vous devez être connecté pour accéder à cette page';
+    }
+}
+
+if(isset($_GET['action']) && $_GET['action'] == 'derniereStatsLoueur') {
+    $vue = 'derniereStatsLoueur';
+    $title = 'Dernières Statistiques';
+    if(isset($_SESSION['id'])) {
+        $log = $dao->derniereStatsLoueur($_SESSION['id']);
+    } else {
+        $message_erreur = 'Vous devez être connecté pour accéder à cette page';
+    }
+}
+
+if(isset($_GET['action']) && $_GET['action'] == 'historiqueLoueur') {
+    $vue = 'historiqueLoueur';
+    $title = 'Historique Loueur';
+    if(isset($_SESSION['id'])) {
+        $logs = $dao->historiqueLoueur($_SESSION['id']);
+    } else {
+        $message_erreur = 'Vous devez être connecté pour accéder à cette page';
+    }
+}
+
+// Les pages administrateur
 if (isset($_GET['lesStats'] )) {
     $vue = 'lesStats';
 }
@@ -47,7 +105,7 @@ if (isset($_GET['historiqueAdmin'] )) {
         $logs = $dao->getHistoriqueAdminByDate($_POST['date']);
     }
 }
-// les stats de tout les loueurs
+
 if (isset($_GET['derniereStatsAdmin'])) {
     $vue = 'derniereStatsAdmin';
     $dao = new LoueurDAO();
@@ -71,10 +129,10 @@ if (isset($_GET['statsParLoueur'])) {
     }
 }
 
-
 if (isset($_GET['administration'])) {
     $vue = 'administration';
 }
+
 if (isset($_GET['creerLoueur'])) {
     $vue = 'creerLoueur';
     $dao = new LoueurDAO();
@@ -119,6 +177,8 @@ if (isset($_GET['modifierLoueur'])) {
 
 
 }
+
+
 if (isset($_GET['supprimerLoueur'])) {
     $vue = 'supprimerLoueur';
     $dao = new LoueurDAO();
@@ -133,43 +193,49 @@ if (isset($_GET['supprimerLoueur'])) {
     }
 }
 
-//Deconexion
+
+// Déconnexion
 if(isset($_GET['deco'])){
     session_unset();
     session_destroy();
     $vue = 'connexion';
 }
 
-include('view/header.php');
-if($vue == 'connexion'){
-    include('view/connexion.php');
-}
-if($vue == 'administrateurConnecte'){
-    include('view/administrateurConnecte.php');
-}
-if($vue == 'lesStats'){
-    include('view/LesStats.php');
-}
-if($vue == 'historiqueAdmin'){
-    include('view/historiqueAdmin.php');
-}
-if($vue == 'derniereStatsAdmin'){
-    include('view/derniereStatsAdmin.php');
-}
-if($vue == 'statsParLoueur'){
-    include('view/statsParLoueur.php');
-}
-if($vue == 'administration'){
-    include('view/administration.php');
-}
-if($vue == 'creerLoueur'){
-    include('view/creationLoueur.php');
-}
-if($vue == 'modifierLoueur'){
-    include('view/modifLoueur.php');
-}
-if($vue == 'supprimerLoueur'){
-    include('view/supprLoueur.php');
+// Inclusion des vues
+include 'view/header.php';
+
+if($vue == 'connexion') {
+    include 'view/connexion.php';
+} else if($vue == 'utilisateurConnecte') {
+    include 'view/loueurConnecte.php';
+} else if($vue == 'administrateurConnecte') {
+    include 'view/administrateurConnecte.php';
+} else if($vue == 'mesStats') {
+    include 'view/mesStats.php';
+} else if($vue == 'mesInfos') {
+    include 'view/mesInformations.php';
+} else if($vue == 'derniereStatsLoueur') {
+    include 'view/derniereStatsLoueur.php';
+} else if($vue == 'historiqueLoueur') {
+    include 'view/historiqueLoueur.php';
+} else if($vue == 'lesStats') {
+    include 'view/LesStats.php';
+} else if($vue == 'historiqueAdmin') {
+    include 'view/historiqueAdmin.php';
+} else if($vue == 'derniereStatsAdmin') {
+    include 'view/derniereStatsAdmin.php';
+} else if($vue == 'statsParLoueur') {
+    include 'view/statsParLoueur.php';
+} else if($vue == 'administration') {
+    include 'view/administration.php';
+} else if($vue == 'creerLoueur') {
+    include 'view/creationLoueur.php';
+} else if($vue == 'modifierLoueur') {
+    include 'view/modifLoueur.php';
+} else if($vue == 'supprimerLoueur') {
+    include 'view/supprLoueur.php';
+} else {
+    echo "<p>Action non reconnue.</p>";
 }
 
-include('view/footer.php');
+include 'view/footer.php';

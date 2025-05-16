@@ -1,9 +1,9 @@
 <h2>Historique</h2>
 <h3><?php echo htmlspecialchars($_SESSION['loueur_nom']) ?></h3>
 <div id="btnConnexion">
-    <a href="connexion.php">Déconnexion</a>
-    <a href="mesStats.php">Retour en arrière</a>
-    <a href="derniereStatsLoueur.php">Dernières statistiques</a>
+    <a href="connexion.php?action=connexion">Déconnexion</a>
+    <a href="mesStats.php?action=mesStats">Retour en arrière</a>
+    <a href="derniereStatsLoueur.php?action=derniereStatsLoueur">Dernières statistiques</a>
 </div>
 <?php foreach($loueur as $infoParJour) {
     echo '<h3>'.$loueur->getId().'</h3>';
