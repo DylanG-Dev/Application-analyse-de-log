@@ -25,4 +25,4 @@ ENGINE=INNODB;
 
 INSERT INTO `loueur`(`idLoueur`, `nom`, `mot_de_passe`, `isAdmin`)
 VALUES ('2000','Admin','Admin', '1'),
-       ('3000', 'Loueur', 'Loueur', '0');ALTER TABLE `loueur` ADD `motdepasse` VARCHAR(255);
+       ('3000', 'Loueur', 'Loueur', '0');
