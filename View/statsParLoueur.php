@@ -1,12 +1,12 @@
-<h2><?php echo htmlspecialchars($_SESSION['loueur_nom']) ?></h2>
-<div id="displayFlex"><div class="container-fluid">
-        <div class="row vh-100">
+<div id="topPage"class="d-flex flex-column min-vh-200">
+    <div class="container-fluid flex-grow-1">
+        <div class="row">
             <div id="side-bar" class="col-12 col-md-3 col-xl-2 bg-dark text-white p-0 d-flex flex-column">
                 <nav class="navbar bg-dark border-bottom border-white">
                     <div class="container-fluid">
-                        <a class="navbar-brand text-white" href="index.php?deco">
-                            <i class="bi bi-house-door"></i>
-                            <span class="ms-2">Déconnexion</span>
+                        <a id="deco" class="navbar-brand text-white" href="index.php?deco">
+                            <i  class="bi bi-house-door"></i>
+                            <span id="boutondeco" class="ms-2"><strong>Déconnexion</strong></span>
                         </a>
                     </div>
                 </nav>
@@ -38,6 +38,11 @@
                 </nav>
             </div>
             <div class="col-12 col-md-9 col-xl-10 bg-white">
+                <header id="head">
+                    <h2 class="alert alert-warning"><?php echo htmlspecialchars($_SESSION['loueur_nom']) ?></h2>
+                </header>
+                <h4 id="center">Recherche de statistiques par loueur</h4>
+                <br>
                 <form method="post" action="index.php?statsParLoueur">
                     <table id="statsLoueur">
                         <tr>
@@ -46,55 +51,44 @@
 
                         <tr>
                             <td><br><a href="#"><input class="btn btn-warning" name="btnErase" type="reset" value="Effacer" /></a></td>
-                            <td><br><input class="btn btn-primary" name="btnRecherche" type="submit" value="Chercher" /></td>
-
-                            <?php if (isset($_POST['btnRecherche'])): ?>
-                                <?php if (!empty($logs)): ?>
-                                    <table>
-                                        <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Nom</th>
-                                            <th>Date</th>
-                                            <th>Erreur KO</th>
-                                            <th>Erreur Timeout</th>
-                                            <th>Pays</th>
-                                            <th>Email</th>
-                                            <th>Téléphone</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <?php foreach ($logs as $log): ?>
-                                            <tr>
-                                                <td><?= htmlspecialchars((string) $log['id']) ?></td>
-                                                <td><?= htmlspecialchars((string) $log['nom']) ?></td>
-                                                <td><?= htmlspecialchars((string) $log['date']) ?></td>
-                                                <td><?= htmlspecialchars((string) $log['appelsKO']) ?></td>
-                                                <td><?= htmlspecialchars((string) $log['timeouts']) ?></td>
-                                                <td><?= htmlspecialchars((string) $log['pays']) ?></td>
-                                                <td><?= htmlspecialchars((string) $log['email']) ?></td>
-                                                <td><?= htmlspecialchars((string) $log['numTel']) ?></td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                        </tbody>
-                                    </table>
-                                <?php else: ?>
-                                    <p>Aucun log trouvé pour ce loueur.</p>
-                                <?php endif; ?>
-                            <?php endif; ?>
-
-
+                            <br><td><br><input class="btn btn-primary" name="btnRecherche" type="submit" value="Chercher" /></td>
                         </tr>
                     </table>
                 </form>
+                <?php if (isset($_POST['btnRecherche'])): ?>
+                    <?php if (!empty($logs)): ?>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nom</th>
+                                <th>Date</th>
+                                <th>Erreur KO</th>
+                                <th>Erreur Timeouts</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($logs as $log): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars((string) $log['id']) ?></td>
+                                    <td><?= htmlspecialchars((string) $log['nom']) ?></td>
+                                    <td><?= htmlspecialchars((string) $log['date']) ?></td>
+                                    <td><?= htmlspecialchars((string) $log['appelsKO']) ?></td>
+                                    <td><?= htmlspecialchars((string) $log['timeouts']) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    <?php else: ?>
+                        <p class="text-center">Aucun log trouvé pour ce loueur.</p>
+                    <?php endif; ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>
+    <footer class="text-center">
+        <h2 id="footer" class="alert alert-warning">Giurgiuman Alexandre, Barthelemy Maxence, Gamet Dylan</h2>
+    </footer>
 </div>
 
-<footer class="text-center mt-4">
-    <strong>Giurgiuman Alexandre, Barthelemy Maxence, Gamet Dylan</strong>
-</footer>
-
-<!-- Bootstrap Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>

@@ -26,4 +26,8 @@
         </tr>
     </table>
 </form>
-<br><br>
+<br>
+<br>
+<footer class="text-center">
+    <h2 id="footer" class="alert alert-warning">Giurgiuman Alexandre, Barthelemy Maxence, Gamet Dylan</h2>
+</footer>

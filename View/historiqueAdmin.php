@@ -1,4 +1,4 @@
-<div id="topPage"class="d-flex flex-column min-vh-100">
+<div id="topPage"class="d-flex flex-column min-vh-200">
     <div class="container-fluid flex-grow-1">
         <div class="row">
             <div id="side-bar" class="col-12 col-md-3 col-xl-2 bg-dark text-white p-0 d-flex flex-column">
@@ -6,7 +6,7 @@
                     <div class="container-fluid">
                         <a id="deco" class="navbar-brand text-white" href="index.php?deco">
                             <i  class="bi bi-house-door"></i>
-                            <span class="ms-2">Déconnexion</span>
+                            <span id="boutondeco" class="ms-2"><strong>Déconnexion</strong></span>
                         </a>
                     </div>
                 </nav>
@@ -38,7 +38,9 @@
                 </nav>
             </div>
             <div class="col-12 col-md-9 col-xl-10 bg-white">
-                <h1><?php echo htmlspecialchars($_SESSION['loueur_nom']) ?></h1>
+                <header id="head">
+                    <h2 class="alert alert-warning"><?php echo htmlspecialchars($_SESSION['loueur_nom']) ?></h2>
+                </header>
                 <h4 id="center">Historique</h4>
                 <?php if (isset($logs) && !empty($logs)): ?>
                     <table class="table table-striped">
@@ -64,15 +66,14 @@
                         </tbody>
                     </table>
                 <?php else: ?>
-                    <p>Aucun log à afficher.</p>
+                    <p class="text-center">Aucun log à afficher.</p>
                 <?php endif; ?>
             </div>
         </div>
     </div>
     <footer class="text-center">
-        <strong>Giurgiuman Alexandre, Barthelemy Maxence, Gamet Dylan</strong>
+        <h2 id="footer" class="alert alert-warning">Giurgiuman Alexandre, Barthelemy Maxence, Gamet Dylan</h2>
     </footer>
 </div>
 
-<!-- Bootstrap Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
